@@ -1,0 +1,155 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pumpkin Seed Classifier</title>
+</head>
+<body>
+  <h2>Enter Pumpkin Seed Features</h2>
+<form action="/predict" method="POST">
+  <input type="text" name="Area" placeholder="Area" required><br>
+  <input type="text" name="Perimeter" placeholder="Perimeter" required><br>
+  <input type="text" name="MajorAxisLength" placeholder="MajorAxisLength" required><br>
+  <input type="text" name="MinorAxisLength" placeholder="MinorAxisLength" required><br>
+  <input type="text" name="AspectRation" placeholder="AspectRation" required><br>
+  <input type="text" name="Eccentricity" placeholder="Eccentricity" required><br>
+  <input type="text" name="ConvexArea" placeholder="ConvexArea" required><br>
+  <input type="text" name="EquivDiameter" placeholder="EquivDiameter" required><br>
+  <input type="text" name="Extent" placeholder="Extent" required><br>
+  <input type="text" name="Solidity" placeholder="Solidity" required><br>
+  <input type="text" name="Roundness" placeholder="Roundness" required><br>
+  <input type="text" name="Compactness" placeholder="Compactness" required><br>
+  <input type="submit" value="Predict">
+</form>
+ 
+ 
+  <h3>{{ prediction_text }}</h3>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pumpkin Seed Classifier</title>
+</head>
+<body>
+    <h2>Pumpkin Seed Classification</h2>
+   <form method="POST" action="/predict">
+    {% for feature in ['Area', 'Perimeter', 'Major_Axis_Length', 'Minor_Axis_Length', 'Convex_Area', 
+                       'Equiv_Diameter', 'Eccentricity', 'Solidity', 'Extent', 'Roundness', 
+                       'Aspect_Ration', 'Compactness'] %}
+        <div class="form-group">
+            <label>{{ feature }}:</label>
+            <input type="number" step="any" name="{{ feature }}" required>
+        </div>
+    {% endfor %}
+    <div class="full-width">
+        <input type="submit" value="Predict">
+    </div>
+</form>
+
+    {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: rgb(204, 239, 227);
+
+        margin: 0;
+        padding: 40px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+   form {
+    position: relative;
+    max-width: 800px;
+    margin: auto;
+  
+    padding: 30px;
+    border-radius: 12px;
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow: hidden; /* Needed to keep ::before inside the form */
+}
+
+form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url("{{ url_for('static', filename='pumpkin bg.png') }}");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.7; /* Adjust this for desired transparency (0 = invisible, 1 = full opacity) */
+    z-index: 0;
+}
+
+/* Ensure form content appears above the background */
+form > * {
+    position: relative;
+    z-index: 1;
+}
+
+
+    label {
+        font-weight: bold;
+     
+        margin-bottom: 5px;
+        display: block;
+    }
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: rgba(243, 247, 246, 0.7); /* white with 50% transparency */
+    font-weight: bold;
+}
+
+
+    .form-group {
+        flex: 1 1 45%; /* approx. col-6 */
+        min-width: 280px;
+    }
+
+    .full-width {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    input[type="submit"] {
+        background-color: #84e444;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    h3 {
+        text-align: center;
+        color: #006400;
+        margin-top: 20px;
+    }
+</style>
